@@ -5,6 +5,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -37,36 +38,60 @@ class MainActivity : AppCompatActivity() {
                 game.getAciertos().toString()
             }
 
-            println("Pasapalabra: $pasapalabra") // Añade esta línea
+            println("Pasapalabra: $pasapalabra")
 
-            if (currentLetter.isEmpty() || currentLetter == "0") {
+            if (currentLetter == "0") {
                 // No hay más preguntas
                 scoreTextView.text = "Fin del juego. Aciertos: ${game.getAciertos()}/${game.getRespuestasIntentadas()}"
                 submitButton.isEnabled = false
                 pasapalabraButton.isEnabled = false
+
             } else {
+
                 val question = game.getPregunta(currentLetter)
-                println("Mostrando pregunta: ${question.pregunta}")
-                questionTextView.text = "Pregunta para la letra '$currentLetter': ${question.pregunta}"
+                if (question == null) {
+                    // No hay preguntas disponibles para la letra actual, informar al usuario y comenzar una nueva ronda
+                    AlertDialog.Builder(this)
+                        .setTitle("Ronda terminada")
+                        .setMessage("La ronda ha terminado. ¿Quieres empezar una nueva ronda?")
+                        .setPositiveButton("Sí") { _, _ ->
+                            game.reset()
+                            showNextQuestion()
+                        }
+                        .setNegativeButton("No") { _, _ ->
+                            // Opcional: puedes finalizar la actividad aquí si no quieres que el usuario continúe
+                        }
+                        .show()
+                } else {
+                    println("Mostrando pregunta: ${question.pregunta}")
+                    questionTextView.text = "Pregunta para la letra '$currentLetter': ${question.pregunta}"
+                }
             }
         }
+
 
 
 
 
 // Manejar el botón de envío
         submitButton.setOnClickListener {
-            val userAnswer = answerEditText.text.toString()
-            val correct = game.responder(currentLetter, userAnswer)
-            if (correct) {
-                Toast.makeText(this, "Correcto!", Toast.LENGTH_SHORT).show()
+            val userAnswer = answerEditText.text.toString().trim()
+            if (userAnswer.isEmpty()) {
+                Toast.makeText(this, "Por favor, ingresa una respuesta.", Toast.LENGTH_SHORT).show()
             } else {
-                Toast.makeText(this, "Incorrecto!", Toast.LENGTH_SHORT).show()
+                val correct = game.responder(currentLetter, userAnswer)
+                if (correct) {
+                    Toast.makeText(this, "Correcto!", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(this, "Incorrecto!", Toast.LENGTH_SHORT).show()
+                    game.incrementarRespuestasIntentadas() // Incrementa el contador de respuestas intentadas
+                }
+                answerEditText.text.clear()
+                showNextQuestion()
+                scoreTextView.text = "Aciertos: ${game.getAciertos()}/${game.getRespuestasIntentadas()}"
             }
-            answerEditText.text.clear()
-            showNextQuestion()
-            scoreTextView.text = "Aciertos: ${game.getAciertos()}/${game.getRespuestasIntentadas()}"
         }
+
 
         // Manejar el botón Pasapalabra
         pasapalabraButton.setOnClickListener {
