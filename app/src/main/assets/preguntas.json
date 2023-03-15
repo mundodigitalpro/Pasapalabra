@@ -1,0 +1,42 @@
+{
+  "a": [
+    {
+      "pregunta": "Herramienta para cavar, que tiene una lámina de hierro plana y ancha, y un mango largo de madera",
+      "respuesta": "azada"
+    },
+    {
+      "pregunta": "Persona que escribe obras de teatro",
+      "respuesta": "autor"
+    }
+  ],
+  "b": [
+    {
+      "pregunta": "Emplear, gastar, consumir totalmente algo",
+      "respuesta": "bailar"
+    },
+    {
+      "pregunta": "Aparato eléctrico para calentar y tostar rebanadas de pan",
+      "respuesta": "brujula"
+    }
+  ],
+  "c": [
+    {
+      "pregunta": "Que no tiene inclinación o pendiente",
+      "respuesta": "calvo"
+    },
+    {
+      "pregunta": "Conjunto de naipes que se reparten entre varios jugadores",
+      "respuesta": "cartas"
+    }
+  ],
+  "d": [
+    {
+      "pregunta": "Acción de retirar la piel que cubre un objeto",
+      "respuesta": "desnudar"
+    },
+    {
+      "pregunta": "Poner en un líquido algo sólido para que, ablandándose, suelte su sustancia o se deshaga",
+      "respuesta": "diluir"
+    }
+  ]
+}
