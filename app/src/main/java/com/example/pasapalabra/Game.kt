@@ -1,10 +1,12 @@
 package com.example.pasapalabra
 
 class Game(private val preguntas: HashMap<String, List<Question>>) {
-    private val pasapalabra = mutableSetOf<String>()
+    private val pasapalabra = preguntas.keys.toMutableSet()
     private val respuestas = mutableMapOf<String, Boolean>()
 
-
+    init {
+        pasapalabra.addAll(preguntas.keys)
+    }
 
     fun getPregunta(letra: String): Question {
         return preguntas[letra]?.random() ?: throw IllegalArgumentException("No hay preguntas para la letra '$letra'")

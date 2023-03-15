@@ -1,15 +1,13 @@
 package com.example.pasapalabra
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
-import org.json.simple.JSONArray
-import org.json.simple.JSONObject
-import org.json.simple.parser.JSONParser
-import org.json.simple.parser.ParseException
+import androidx.appcompat.app.AppCompatActivity
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import java.io.IOException
 import java.io.InputStreamReader
 
@@ -39,6 +37,8 @@ class MainActivity : AppCompatActivity() {
                 game.getAciertos().toString()
             }
 
+            println("Pasapalabra: $pasapalabra") // Añade esta línea
+
             if (currentLetter.isEmpty() || currentLetter == "0") {
                 // No hay más preguntas
                 scoreTextView.text = "Fin del juego. Aciertos: ${game.getAciertos()}/${game.getRespuestasIntentadas()}"
@@ -46,12 +46,15 @@ class MainActivity : AppCompatActivity() {
                 pasapalabraButton.isEnabled = false
             } else {
                 val question = game.getPregunta(currentLetter)
+                println("Mostrando pregunta: ${question.pregunta}")
                 questionTextView.text = "Pregunta para la letra '$currentLetter': ${question.pregunta}"
             }
         }
 
 
-        // Manejar el botón de envío
+
+
+// Manejar el botón de envío
         submitButton.setOnClickListener {
             val userAnswer = answerEditText.text.toString()
             val correct = game.responder(currentLetter, userAnswer)
@@ -62,14 +65,15 @@ class MainActivity : AppCompatActivity() {
             }
             answerEditText.text.clear()
             showNextQuestion()
+            scoreTextView.text = "Aciertos: ${game.getAciertos()}/${game.getRespuestasIntentadas()}"
         }
 
         // Manejar el botón Pasapalabra
-
         pasapalabraButton.setOnClickListener {
             game.responder(currentLetter, "")
             answerEditText.text.clear()
             showNextQuestion()
+            scoreTextView.text = "Aciertos: ${game.getAciertos()}/${game.getRespuestasIntentadas()}"
         }
 
 
@@ -78,32 +82,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun cargarPreguntas(): HashMap<String, List<Question>> {
-        val preguntas = hashMapOf<String, List<Question>>()
-
-        try {
-            val parser = JSONParser()
+        return try {
             val reader = InputStreamReader(assets.open("preguntas.json"))
-            val json = parser.parse(reader) as JSONObject
-
-            for (key in json.keys) {
-                val letra = key
-                val jsonArray = json[letra] as JSONArray
-                val questionList = mutableListOf<Question>()
-                for (i in 0 until jsonArray.size) {
-                    val obj = jsonArray[i] as JSONObject
-                    questionList.add(Question(obj["pregunta"] as String, obj["respuesta"] as String))
-                }
-                preguntas[letra as String] = questionList
-            }
+            val gson = Gson()
+            val type = object : TypeToken<QuestionsWrapper>() {}.type
+            val wrapper: QuestionsWrapper = gson.fromJson(reader, type)
+            println("Preguntas cargadas: ${wrapper.preguntas}") // Añade esta línea
+            wrapper.preguntas
         } catch (e: IOException) {
             e.printStackTrace()
-        } catch (e: ParseException) {
-            e.printStackTrace()
+            hashMapOf()
         }
-
-        return preguntas
     }
-
-
-
 }
