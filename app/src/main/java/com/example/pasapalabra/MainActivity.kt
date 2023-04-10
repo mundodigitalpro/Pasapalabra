@@ -20,6 +20,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // Cargar las preguntas del archivo JSON
         game = Game(cargarPreguntas())
 
         // Configurar los elementos de la interfaz de usuario
@@ -31,6 +32,7 @@ class MainActivity : AppCompatActivity() {
 
         // Función para mostrar una pregunta en la interfaz de usuario
         fun showNextQuestion() {
+            // Obtener el siguiente conjunto de preguntas
             val pasapalabra = game.getPasapalabra()
             currentLetter = if (pasapalabra.isNotEmpty()) {
                 pasapalabra.first()
@@ -38,8 +40,9 @@ class MainActivity : AppCompatActivity() {
                 game.getAciertos().toString()
             }
 
-            println("Pasapalabra: $pasapalabra")
+            //println("Pasapalabra: $pasapalabra")
 
+            // Si no hay más preguntas, terminar el juego
             if (currentLetter == "0") {
                 // No hay más preguntas
                 scoreTextView.text = "Fin del juego. Aciertos: ${game.getAciertos()}/${game.getRespuestasIntentadas()}"
@@ -47,10 +50,10 @@ class MainActivity : AppCompatActivity() {
                 pasapalabraButton.isEnabled = false
 
             } else {
-
+                // Mostrar la pregunta para la letra actual
                 val question = game.getPregunta(currentLetter)
                 if (question == null) {
-                    // No hay preguntas disponibles para la letra actual, informar al usuario y comenzar una nueva ronda
+                    /// Si no hay preguntas disponibles para la letra actual, informar al usuario y comenzar una nueva ronda
                     AlertDialog.Builder(this)
                         .setTitle("Ronda terminada")
                         .setMessage("La ronda ha terminado. ¿Quieres empezar una nueva ronda?")
@@ -69,11 +72,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-
-
-
-
-// Manejar el botón de envío
+        // Manejar el botón de envío
         submitButton.setOnClickListener {
             val userAnswer = answerEditText.text.toString().trim()
             if (userAnswer.isEmpty()) {
@@ -106,15 +105,22 @@ class MainActivity : AppCompatActivity() {
         showNextQuestion()
     }
 
+    // Función para cargar las preguntas del archivo JSON
     private fun cargarPreguntas(): HashMap<String, List<Question>> {
         return try {
+            // Leer el archivo JSON desde los recursos de la aplicación
             val reader = InputStreamReader(assets.open("preguntas.json"))
+            // Crear un objeto Gson para deserializar el JSON
             val gson = Gson()
+            // Especificar el tipo de objeto que se va a deserializar
             val type = object : TypeToken<QuestionsWrapper>() {}.type
+            // Deserializar el JSON en un objeto QuestionsWrapper
             val wrapper: QuestionsWrapper = gson.fromJson(reader, type)
-            println("Preguntas cargadas: ${wrapper.preguntas}") // Añade esta línea
+            //println("Preguntas cargadas: ${wrapper.preguntas}") // Añade esta línea
+            // Devolver las preguntas cargadas
             wrapper.preguntas
         } catch (e: IOException) {
+            // Si hay algún error al cargar el archivo, imprimir la traza de error y devolver un HashMap vacío
             e.printStackTrace()
             hashMapOf()
         }
