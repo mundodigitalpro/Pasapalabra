@@ -64,7 +64,7 @@ class MainActivity : AppCompatActivity() {
                         .show()
                 } else {
                     println("Mostrando pregunta: ${question.pregunta}")
-                    questionTextView.text = "Pregunta para la letra '$currentLetter': ${question.pregunta}"
+                    questionTextView.text = "Con la letra '$currentLetter':\n\n${question.pregunta}"
                 }
             }
         }
@@ -84,13 +84,13 @@ class MainActivity : AppCompatActivity() {
                     Toast.makeText(this, "Correcto!", Toast.LENGTH_SHORT).show()
                 } else {
                     Toast.makeText(this, "Incorrecto!", Toast.LENGTH_SHORT).show()
-                    game.incrementarRespuestasIntentadas() // Incrementa el contador de respuestas intentadas
                 }
                 answerEditText.text.clear()
                 showNextQuestion()
                 scoreTextView.text = "Aciertos: ${game.getAciertos()}/${game.getRespuestasIntentadas()}"
             }
         }
+
 
 
         // Manejar el botón Pasapalabra

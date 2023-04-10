@@ -2,25 +2,58 @@
   "preguntas": {
     "a": [
       {
-        "pregunta": "Con la letra A, capital de Grecia.",
+        "pregunta": "Capital de Grecia.",
         "respuesta": "Atenas"
       },
       {
-        "pregunta": "Con la letra A, instrumento musical de cuerda.",
+        "pregunta": "Instrumento musical de cuerda.",
         "respuesta": "Arpa"
+      },
+      {
+        "pregunta": "Proceso de convertir una sustancia en otra mediante una reacción química.",
+        "respuesta": "Alquimia"
+      },
+      {
+        "pregunta": "Proceso de adquirir conocimientos a través del estudio, la experiencia o la enseñanza.",
+        "respuesta": "Aprendizaje"
+      },
+      {
+        "pregunta": "Trastorno psicológico que se caracteriza por la presencia de miedo intenso y persistente ante situaciones o estímulos específicos.",
+        "respuesta": "Ansiedad"
       }
     ],
     "b": [
       {
-        "pregunta": "Con la letra B, Microorganismo unicelular sin n�cleo.",
+        "pregunta": "Microorganismo unicelular sin núcleo.",
         "respuesta": "Bacteria"
       },
       {
-        "pregunta": "Con la letra B, juego de mesa en el que se usan fichas numeradas.",
+        "pregunta": "Juego de mesa en el que se usan fichas numeradas.",
         "respuesta": "Bingo"
+      },
+      {
+        "pregunta": "Deporte que se juega con una pelota y dos equipos de cinco jugadores en una cancha.",
+        "respuesta": "Baloncesto"
+      }
+    ],
+    "c": [
+      {
+        "pregunta": "Aparato electrónico utilizado para procesar datos y realizar cálculos.",
+        "respuesta": "Computadora"
+      },
+      {
+        "pregunta": "Fruto comestible de forma alargada y piel gruesa, usualmente de color amarillo, verde o rojo.",
+        "respuesta": "Calabacín"
+      },
+      {
+        "pregunta": "Arte de preparar y cocinar alimentos.",
+        "respuesta": "Cocina"
+      },
+      {
+        "pregunta": "Instrumento óptico que permite ver objetos a gran distancia.",
+        "respuesta": "Catalejo"
       }
     ]
+
   }
 }
-
-
